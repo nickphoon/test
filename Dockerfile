@@ -42,15 +42,15 @@ RUN chown -R jenkins:jenkins "${JENKINS_AGENT_HOME}"
 # Copy the current directory contents into the container at /app
 ADD . /app
 
-# Install the required packages from requirements.txt
-RUN pip3 install --upgrade pip && \
-    pip3 install --no-cache-dir -r requirements.txt
+# # Install the required packages from requirements.txt
+# RUN pip3 install --upgrade pip && \
+#     pip3 install --no-cache-dir -r requirements.txt
 
 # Make port 5000 available to the world outside this container
 EXPOSE 5000
 
 # Define environment variable
-ENV NAME PasswordVerification
+ENV NAME Test
 
 # Run app.py when the container launches
 CMD ["python3", "app.py"]
