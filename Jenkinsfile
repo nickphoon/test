@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'python:3.9-slim'
+            args '-u root'
+        }
+    }
     
     environment {
         VENV_PATH = 'venv' // Changed to a relative path for easier management
@@ -16,7 +21,7 @@ pipeline {
             steps {
                 script {
                     // Create a virtual environment
-                    sh 'python -m venv $VENV_PATH'
+                    sh 'python3 -m venv $VENV_PATH'
                 }
             }
         }
