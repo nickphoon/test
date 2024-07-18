@@ -15,16 +15,17 @@ pipeline {
     stages {
         stage('Check Docker') {
             steps {
-                script {
-                    sh 'docker --version'
-                }
+                sh 'docker --version'
             }
         }
         
         stage('Clone Repository') {
             steps {
                 script {
-                    git branch: 'main', url: 'https://github.com/nickphoon/test.git'
+                    // Ensure we are in a workspace directory
+                    dir('workspace') {
+                        git branch: 'main', url: 'https://github.com/nickphoon/test.git'
+                    }
                 }
             }
         }
@@ -32,8 +33,10 @@ pipeline {
         stage('Setup Virtual Environment') {
             steps {
                 script {
-                    // Set up virtual environment using Python from the Docker container
-                    sh 'python -m venv $VENV_PATH'
+                    // Ensure we are in a workspace directory
+                    dir('workspace') {
+                        sh 'python -m venv $VENV_PATH'
+                    }
                 }
             }
         }
@@ -41,33 +44,33 @@ pipeline {
         stage('Install dependencies') {
             steps {
                 script {
-                    // Activate virtual environment and install dependencies
-                    sh 'bash -c "source $VENV_PATH/bin/activate && pip install --upgrade pip && pip install -r requirements.txt"'
+                    // Ensure we are in a workspace directory
+                    dir('workspace') {
+                        sh 'bash -c "source $VENV_PATH/bin/activate && pip install --upgrade pip && pip install -r requirements.txt"'
+                    }
                 }
             }
         }
         
         stage('Dependency Check') {
             steps {
-                script {
-                    echo 'Running dependency check...'
-                }
+                echo 'Running dependency check...'
             }
         }
         
         stage('UI Testing') {
             steps {
-                script {
-                    echo 'Running UI tests...'
-                }
+                echo 'Running UI tests...'
             }
         }
         
         stage('Deploy Flask App') {
             steps {
                 script {
-                    // Activate virtual environment and run Flask app
-                    sh 'bash -c "source $VENV_PATH/bin/activate && FLASK_APP=$FLASK_APP flask run --host=0.0.0.0 --port=5000 &"'
+                    // Ensure we are in a workspace directory
+                    dir('workspace') {
+                        sh 'bash -c "source $VENV_PATH/bin/activate && FLASK_APP=$FLASK_APP flask run --host=0.0.0.0 --port=5000 &"'
+                    }
                 }
             }
         }
@@ -77,8 +80,10 @@ pipeline {
         always {
             script {
                 echo 'Cleaning up...'
-                // Clean up the virtual environment
-                sh 'rm -rf $VENV_PATH'
+                // Ensure we are in a workspace directory
+                dir('workspace') {
+                    sh 'rm -rf $VENV_PATH'
+                }
             }
         }
     }
