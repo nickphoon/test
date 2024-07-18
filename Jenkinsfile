@@ -62,7 +62,7 @@ pipeline {
                 script {
                     // Ensure we are in a workspace directory
                     sh 'bash -c "source $VENV_PATH/bin/activate && FLASK_APP=$FLASK_APP flask run --host=0.0.0.0 --port=5000 &"'
-                    
+                    input message: 'Finished using the web site? (Click "Proceed" to continue)'
                 }
             }
         }
