@@ -1,10 +1,12 @@
 pipeline {
     agent any
+    tools {python3 "PYTHON3"}
     environment {
         dockerImage = ''
         dockerContainer = ''
         VENV_PATH = 'myprojectenv'
         FLASK_APP = 'myproject.py'
+        PATH = "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/path/to/python/bin"
     }
     stages {
         stage('Clone Repository') {
