@@ -14,8 +14,8 @@ pipeline {
         }
         stage('Setup Virtual Environment') {
             steps {
+                // Use Docker image to set up virtual environment
                 script {
-                    // Use Docker image to set up virtual environment
                     docker.image('python:3.9-slim').inside {
                         sh 'python -m venv $VENV_PATH'
                     }
@@ -24,8 +24,8 @@ pipeline {
         }
         stage('Install dependencies') {
             steps {
+                // Use Docker image to install dependencies
                 script {
-                    // Use Docker image to install dependencies
                     docker.image('python:3.9-slim').inside {
                         sh 'bash -c "source $VENV_PATH/bin/activate && pip install --upgrade pip && pip install -r requirements.txt"'
                     }
@@ -44,8 +44,8 @@ pipeline {
         }
         stage('Deploy Flask App') {
             steps {
+                // Use Docker image to run the Flask app
                 script {
-                    // Use Docker image to run the Flask app
                     docker.image('python:3.9-slim').inside {
                         sh 'bash -c "source $VENV_PATH/bin/activate && FLASK_APP=$FLASK_APP flask run --host=0.0.0.0 --port=5000 &"'
                     }
