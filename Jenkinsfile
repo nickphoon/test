@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    tools {python3 "PYTHON3"}
+    
     environment {
         dockerImage = ''
         dockerContainer = ''
