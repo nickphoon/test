@@ -61,9 +61,8 @@ pipeline {
             steps {
                 script {
                     // Ensure we are in a workspace directory
-                    dir('workspace') {
-                        sh 'bash -c "source $VENV_PATH/bin/activate && FLASK_APP=$FLASK_APP flask run --host=0.0.0.0 --port=5000 &"'
-                    }
+                    sh 'bash -c "source $VENV_PATH/bin/activate && FLASK_APP=$FLASK_APP flask run --host=0.0.0.0 --port=5000 &"'
+                    
                 }
             }
         }
