@@ -1,15 +1,10 @@
 pipeline {
-    agent {
-        docker {
-            image 'python:3.9-slim'
-            args '-u root'
-        }
-    }
+    agent any
     
     environment {
-        VENV_PATH = 'venv' // Changed to a relative path for easier management
+        VENV_PATH = 'venv'
         FLASK_APP = 'myproject.py'
-        PATH = "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:venv/bin"
+        PATH = "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$VENV_PATH/bin"
     }
     stages {
         stage('Clone Repository') {
@@ -20,16 +15,20 @@ pipeline {
         stage('Setup Virtual Environment') {
             steps {
                 script {
-                    // Create a virtual environment
-                    sh 'python -m venv $VENV_PATH'
+                    // Use Docker image to set up virtual environment
+                    docker.image('python:3.9-slim').inside {
+                        sh 'python -m venv $VENV_PATH'
+                    }
                 }
             }
         }
         stage('Install dependencies') {
             steps {
                 script {
-                    // Activate the virtual environment and install dependencies
-                    sh 'bash -c "source $VENV_PATH/bin/activate && pip install --upgrade pip && pip install -r requirements.txt"'
+                    // Use Docker image to install dependencies
+                    docker.image('python:3.9-slim').inside {
+                        sh 'bash -c "source $VENV_PATH/bin/activate && pip install --upgrade pip && pip install -r requirements.txt"'
+                    }
                 }
             }
         }
@@ -46,8 +45,10 @@ pipeline {
         stage('Deploy Flask App') {
             steps {
                 script {
-                    // Activate the virtual environment and run the Flask app
-                    sh 'bash -c "source $VENV_PATH/bin/activate && FLASK_APP=$FLASK_APP flask run --host=0.0.0.0 --port=5000 &"'
+                    // Use Docker image to run the Flask app
+                    docker.image('python:3.9-slim').inside {
+                        sh 'bash -c "source $VENV_PATH/bin/activate && FLASK_APP=$FLASK_APP flask run --host=0.0.0.0 --port=5000 &"'
+                    }
                 }
             }
         }
