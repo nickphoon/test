@@ -16,7 +16,7 @@ pipeline {
             steps {
                 script {
                     // Create a virtual environment
-                    sh 'python3 -m venv $VENV_PATH'
+                    sh 'python -m venv $VENV_PATH'
                 }
             }
         }
