@@ -15,11 +15,9 @@ pipeline {
         stage('Setup Virtual Environment') {
             steps {
                 // Use Docker image to set up virtual environment
-                script {
-                    docker.image('python:3.9-slim').inside {
                         sh 'python -m venv $VENV_PATH'
-                    }
-                }
+                    
+                
             }
         }
         stage('Install dependencies') {
