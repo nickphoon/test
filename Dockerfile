@@ -9,4 +9,9 @@ RUN apt-get update && \
 # Optionally, create a symlink for `python` to `python3`
 RUN ln -s /usr/bin/python3 /usr/bin/python
 
+# Install Docker CLI
+RUN apt-get update && \
+    apt-get install -y docker.io && \
+    rm -rf /var/lib/apt/lists/*
+
 USER jenkins
