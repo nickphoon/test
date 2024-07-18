@@ -15,7 +15,7 @@ pipeline {
         stage('Setup Virtual Environment') {
             steps {
                 // Use Docker image to set up virtual environment
-                        sh 'python -m venv $VENV_PATH'
+                        sh 'python3 -m venv $VENV_PATH'
                     
                 
             }
