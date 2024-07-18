@@ -1,5 +1,10 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'python:3.8'  // Specify the Python Docker image version
+            args '-u root'      // Run as root user to avoid permission issues
+        }
+    }
     
     environment {
         VENV_PATH = 'venv'
