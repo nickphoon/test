@@ -29,7 +29,9 @@ pipeline {
             steps {
                 script {
                     
-                        sh 'python -m venv $VENV_PATH'
+                    sh 'bash -c "python3 -m venv $VENV_PATH"'
+                    // Activate the virtual environment
+                    sh 'bash -c "source $VENV_PATH/bin/activate"'
                    
                 }
             }
@@ -37,12 +39,9 @@ pipeline {
         
         stage('Install dependencies') {
             steps {
-                script {
-                    // Ensure we are in a workspace directory
-                    dir('workspace') {
-                        sh 'bash -c "source $VENV_PATH/bin/activate && pip install --upgrade pip && pip install -r requirements.txt"'
-                    }
-                }
+                // Install any dependencies listed in requirements.txt
+                sh 'bash -c "source $VENV_PATH/bin/activate && 
+                pip install -r requirements.txt"'
             }
         }
         
