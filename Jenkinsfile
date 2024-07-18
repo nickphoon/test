@@ -12,14 +12,20 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/nickphoon/test.git'
             }
         }
-        stage('Setup Virtual Environment') {
-            steps {
-                script {
-                    // Create a virtual environment
-                    sh 'python -m venv $VENV_PATH'
-                }
+        stage('version'){
+            steps{
+                sh 'python3 --version'
             }
         }
+        stage('Setup Virtual Environment') {
+            steps {
+                
+                    // Create a virtual environment
+                    sh 'python3 -m venv $VENV_PATH'
+                
+            }
+        }
+        
         stage('Install dependencies') {
             steps {
                 script {
