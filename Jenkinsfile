@@ -59,11 +59,11 @@ pipeline {
         
         stage('Deploy Flask App') {
             steps {
-                script {
-                    // Ensure we are in a workspace directory
-                    sh 'bash -c "source $VENV_PATH/bin/activate && FLASK_APP=$FLASK_APP flask run --host=0.0.0.0 --port=5000 &"'
-                    input message: 'Finished using the web site? (Click "Proceed" to continue)'
-                }
+                sh 'bash -c "source $VENV_PATH/bin/activate && FLASK_APP=$FLASK_APP flask run --host=0.0.0.0 --port=5000 &"'
+                // Wait to ensure the app has time to start
+                sh 'sleep 10'
+                // Check if Flask app is running
+                sh 'curl -I http://localhost:5000 || echo "Flask app not running on port 5000"'
             }
         }
     }

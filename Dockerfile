@@ -15,3 +15,11 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 USER jenkins
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy the current directory contents into the container at /app
+ADD . /app
+
+# Make port 5000 available to the world outside this container
+EXPOSE 5000
