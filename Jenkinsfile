@@ -2,11 +2,9 @@ pipeline {
     agent any
     
     environment {
-        dockerImage = ''
-        dockerContainer = ''
-        VENV_PATH = '/opt/venv'
+        VENV_PATH = 'venv' // Changed to a relative path for easier management
         FLASK_APP = 'myproject.py'
-        PATH = "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/venv/bin"
+        PATH = "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:venv/bin"
     }
     stages {
         stage('Clone Repository') {
@@ -14,13 +12,19 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/nickphoon/test.git'
             }
         }
+        stage('Setup Virtual Environment') {
+            steps {
+                script {
+                    // Create a virtual environment
+                    sh 'python3 -m venv $VENV_PATH'
+                }
+            }
+        }
         stage('Install dependencies') {
             steps {
                 script {
-                    // Ensure the virtual environment path is correct
-                    sh 'if [ ! -d "$VENV_PATH" ]; then echo "Virtual environment not found"; exit 1; fi'
                     // Activate the virtual environment and install dependencies
-                    sh 'bash -c "source /opt/venv/bin/activate && pip install -r requirements.txt"'
+                    sh 'bash -c "source $VENV_PATH/bin/activate && pip install --upgrade pip && pip install -r requirements.txt"'
                 }
             }
         }
@@ -38,7 +42,7 @@ pipeline {
             steps {
                 script {
                     // Activate the virtual environment and run the Flask app
-                    sh 'bash -c "source /opt/venv/bin/activate && FLASK_APP=$FLASK_APP flask run --host=0.0.0.0 --port=5000 &"'
+                    sh 'bash -c "source $VENV_PATH/bin/activate && FLASK_APP=$FLASK_APP flask run --host=0.0.0.0 --port=5000 &"'
                 }
             }
         }
@@ -47,6 +51,8 @@ pipeline {
         always {
             script {
                 echo 'Cleaning up...'
+                // Clean up the virtual environment
+                sh 'rm -rf $VENV_PATH'
             }
         }
     }
