@@ -1,10 +1,5 @@
 pipeline {
-    agent {
-        docker {
-            image 'python:3.8'  // Specify the Python Docker image version
-            args '-u root'      // Run as root user to avoid permission issues
-        }
-    }
+    agent any
 
     environment {
         VENV_PATH = 'venv'
@@ -33,10 +28,9 @@ pipeline {
         stage('Setup Virtual Environment') {
             steps {
                 script {
-                    // Ensure we are in a workspace directory
-                    dir('workspace') {
+                    
                         sh 'python -m venv $VENV_PATH'
-                    }
+                   
                 }
             }
         }
