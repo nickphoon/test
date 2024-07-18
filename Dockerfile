@@ -36,14 +36,14 @@ RUN echo "PATH=${PATH}" >> /etc/environment
 # This ensures that the Jenkins user has the necessary permissions to access its home directory.
 RUN chown -R jenkins:jenkins "${JENKINS_AGENT_HOME}"
 
-# Copy the current directory contents into the container at /app
-ADD . /app
+# # Copy the current directory contents into the container at /app
+# ADD . /app
 
-# Make port 5000 available to the world outside this container
-EXPOSE 5000
+# # Make port 5000 available to the world outside this container
+# EXPOSE 5000
 
-# Define environment variable
-ENV NAME Test
+# # Define environment variable
+# ENV NAME Test
 
-# Run app.py when the container launches
-CMD ["python3", "app.py"]
+# # Run app.py when the container launches
+# CMD ["python3", "app.py"]

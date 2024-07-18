@@ -8,6 +8,9 @@ services:
       - "50000:50000"
     volumes:
       - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock # Allow Jenkins to use Docker
+    environment:
+      - JAVA_OPTS=-Djenkins.install.runSetupWizard=false # Skip setup wizard for automation purposes
 
   nginx:
     image: nginx:latest
