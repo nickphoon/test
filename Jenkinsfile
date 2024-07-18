@@ -16,8 +16,12 @@ pipeline {
         }
         stage('Install dependencies') {
             steps {
-                // Install any dependencies listed in requirements.txt
-                sh 'bash -c "pip install -r requirements.txt"'
+                script {
+                    // Ensure the virtual environment path is correct
+                    sh 'if [ ! -d "$VENV_PATH" ]; then echo "Virtual environment not found"; exit 1; fi'
+                    // Activate the virtual environment and install dependencies
+                    sh 'bash -c "source /opt/venv/bin/activate && pip install -r requirements.txt"'
+                }
             }
         }
         stage('Dependency Check') {
@@ -33,8 +37,8 @@ pipeline {
         stage('Deploy Flask App') {
             steps {
                 script {
-                    // Run the Flask app
-                    sh 'FLASK_APP=$FLASK_APP flask run --host=0.0.0.0 --port=5000 &'
+                    // Activate the virtual environment and run the Flask app
+                    sh 'bash -c "source /opt/venv/bin/activate && FLASK_APP=$FLASK_APP flask run --host=0.0.0.0 --port=5000 &"'
                 }
             }
         }
