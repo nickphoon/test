@@ -17,7 +17,7 @@ pipeline {
         stage('Install dependencies') {
             steps {
                 // Install any dependencies listed in requirements.txt
-                sh 'pip install -r requirements.txt'
+                sh 'source /opt/venv/bin/activate && pip install -r requirements.txt'
             }
         }
         stage('Dependency Check') {

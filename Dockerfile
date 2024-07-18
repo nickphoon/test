@@ -21,8 +21,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Create an alias for python3 as python.
 RUN ln -s /usr/bin/python3 /usr/bin/python
 
-# Install Pip
-RUN apt-get -y install python3-pip
 
 # Create a Python virtual environment in /opt/venv.
 RUN python3 -m venv /opt/venv
