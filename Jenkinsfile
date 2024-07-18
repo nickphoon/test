@@ -17,7 +17,7 @@ pipeline {
         stage('Install dependencies') {
             steps {
                 // Install any dependencies listed in requirements.txt
-                sh 'bash -c pip install -r requirements.txt"'
+                sh 'bash -c pip install -r requirements.txt'
             }
         }
         stage('Dependency Check') {
