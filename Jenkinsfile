@@ -11,13 +11,7 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/nickphoon/test.git'
             }
         }
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    sh 'docker build -t $DOCKER_IMAGE .'
-                }
-            }
-        }
+       
         stage('Deploy Flask App') {
             steps {
                 script {
