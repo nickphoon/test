@@ -124,6 +124,10 @@ pipeline {
                     sh 'docker run -d -p 5000:5000 flask-app'
                     
                     sh 'sleep 10'
+
+                    sh 'workspace/jenkins/scripts/deploy.sh'
+                    input message: 'Finished using the web site? (Click "Proceed" to continue)'
+                    sh 'workspace/jenkins/sciprts/kill.sh'
                 }
             }
         }
