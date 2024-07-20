@@ -88,7 +88,7 @@ pipeline {
         
         stage('Build Docker Image') {
             steps {
-                dir('workspace') {
+                dir('workspace/flask') {
                     sh 'docker build -t flask-app .'
                 }
             }
