@@ -72,7 +72,7 @@ pipeline {
                     sh '''
                     curl -s -X POST -F "password=password" http://127.0.0.1:5000 | grep "Password does not meet the requirements"
                     '''
-                    
+                    input message: 'Finished using the web site? (Click "Proceed" to continue)'
                     // Stop the Flask app
                     sh 'pkill -f "flask run"'
                 }
@@ -122,7 +122,7 @@ pipeline {
                     sh 'docker ps -a --filter status=exited --filter publish=5000 --format "{{.ID}}" | xargs -r docker rm'
                     // Run the new Flask app container
                     sh 'docker run -d -p 5000:5000 flask-app'
-                    input message: 'Finished using the web site? (Click "Proceed" to continue)'
+                    
                     sh 'sleep 10'
                 }
             }
