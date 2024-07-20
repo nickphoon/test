@@ -24,4 +24,8 @@ ARG GIT_USER_EMAIL
 RUN git config --global user.name "${GIT_USER_NAME}" && \
     git config --global user.email "${GIT_USER_EMAIL}"
 
+# Copy entrypoint script
+COPY jenkins_entrypoint.sh /usr/local/bin/jenkins_entrypoint.sh
+RUN chmod +x /usr/local/bin/jenkins_entrypoint.sh    
+
 USER jenkins
