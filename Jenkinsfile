@@ -20,7 +20,7 @@ pipeline {
         stage('Clone Repository') {
             steps {
                 dir('workspace') {
-                    git branch: 'main', url: 'https://github.com/motorfireman/Test.git'
+                    git branch: 'main', url: 'https://github.com/nickphoon/test.git'
                 }
             }
         }
@@ -101,7 +101,7 @@ pipeline {
                     dir('workspace') {
                         sh '''
                         ${SONARQUBE_SCANNER_HOME}/bin/sonar-scanner \
-                        -Dsonar.projectKey=flask-app \
+                        -Dsonar.projectKey=Lab \
                         -Dsonar.sources=. \
                         -Dsonar.inclusions=app.py \
                         -Dsonar.host.url=http://sonarqube:9000 \
