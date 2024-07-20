@@ -5,7 +5,7 @@ services:
       context: . # Path to the Jenkins Dockerfile directory
       dockerfile: Dockerfile # Name of the Dockerfile for Jenkins
       args:
-        GIT_USER_NAME: "Nicholas Phoon Kai Jin" # Replace with your full name
+        GIT_USER_NAME: "NicholasPhoonKaiJin" # Replace with your full name
         GIT_USER_EMAIL: "2200780@sit.singaporetech.edu.sg" # Replace with your email
     ports:
       - "8080:8080" # Map host port 8080 to container port 8080 for Jenkins web interface
@@ -34,6 +34,9 @@ services:
       POSTGRES_USER: sonarqube # Set the PostgreSQL username
       POSTGRES_PASSWORD: sonarqube # Set the PostgreSQL password
       POSTGRES_DB: sonarqube # Set the name of the database
+
+  nginx:
+    image: nginx:latest
 
 volumes:
   jenkins_home: # Define a Docker volume to persist Jenkins data

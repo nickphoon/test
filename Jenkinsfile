@@ -122,6 +122,7 @@ pipeline {
                     sh 'docker ps -a --filter status=exited --filter publish=5000 --format "{{.ID}}" | xargs -r docker rm'
                     // Run the new Flask app container
                     sh 'docker run -d -p 5000:5000 flask-app'
+                    input message: 'Finished using the web site? (Click "Proceed" to continue)'
                     sh 'sleep 10'
                 }
             }
