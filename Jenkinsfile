@@ -72,7 +72,6 @@ pipeline {
                     sh '''
                     curl -s -X POST -F "password=password" http://127.0.0.1:5000 | grep "Password does not meet the requirements"
                     '''
-                    input message: 'Finished using the web site? (Click "Proceed" to continue)'
                     // Stop the Flask app
                     sh 'pkill -f "flask run"'
                 }
