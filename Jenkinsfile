@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         VENV_PATH = 'venv'
-        FLASK_APP = 'workspace/app.py'  // Correct path to the Flask app
+        FLASK_APP = 'workspace/flask/app.py'  // Correct path to the Flask app
         PATH = "$VENV_PATH/bin:$PATH"
         SONARQUBE_SCANNER_HOME = tool name: 'SonarQube Scanner'
         SONARQUBE_TOKEN = 'sqp_61ff14cfe86863be8f964b1ef92094b3a3fc5323'  // Set your new SonarQube token here
@@ -27,7 +27,7 @@ pipeline {
         
         stage('Setup Virtual Environment') {
             steps {
-                dir('workspace/') {
+                dir('workspace/flask') {
                     sh 'python3 -m venv $VENV_PATH'
                 }
             }
@@ -35,7 +35,7 @@ pipeline {
         
         stage('Activate Virtual Environment and Install Dependencies') {
             steps {
-                dir('workspace/') {
+                dir('workspace/flask') {
                     sh '. $VENV_PATH/bin/activate && pip install -r requirements.txt'
                 }
             }
@@ -80,7 +80,7 @@ pipeline {
         
         stage('Integration Testing') {
             steps {
-                dir('workspace') {
+                dir('workspace/flask') {
                     sh '. $VENV_PATH/bin/activate && pytest --junitxml=integration-test-results.xml'
                 }
             }
@@ -97,7 +97,7 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('SonarQube') {
-                    dir('workspace') {
+                    dir('workspace/flask') {
                         sh '''
                         ${SONARQUBE_SCANNER_HOME}/bin/sonar-scanner \
                         -Dsonar.projectKey=Lab \

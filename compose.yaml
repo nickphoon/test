@@ -2,7 +2,7 @@ services:
   # Jenkins service configuration
   jenkins:
     build:
-      context: . # Path to the Jenkins Dockerfile directory
+      context: ./jenkins # Path to the Jenkins Dockerfile directory
       dockerfile: Dockerfile # Name of the Dockerfile for Jenkins
       args:
         GIT_USER_NAME: "NicholasPhoonKaiJin" # Replace with your full name
